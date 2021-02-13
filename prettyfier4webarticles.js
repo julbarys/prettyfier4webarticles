@@ -87,6 +87,22 @@ function prettify_habr(){
     }catch{}
 }
 
+// -----------------------------------------------------------------------------
+
+function prettify_xakep(){
+    // disable one-page printable
+    let style_el=document.createElement('style');
+    style_el.appendChild(document.createTextNode(`@media print{@page{size:auto;margin:30px}}`));
+    document.getElementsByTagName('head')[0].appendChild(style_el);
+
+    try{document.querySelector('.bdaia-author-box').remove()}catch{}
+    try{document.querySelector('.bdaia-post-next-prev').remove()}catch{}
+    try{document.querySelector('#bdaia-ralated-posts').remove()}catch{}
+    try{document.querySelector('footer').remove()}catch{}
+
+    avoid_breaks_inside('.prettyprint');
+}
+
 // =============================================================================
 
 function avoid_breaks_inside(selector){
@@ -113,6 +129,9 @@ function choose_prettifier(){
             break;
         case 'habr.com':
             prettifier = prettify_habr;
+            break;
+        case 'xakep.ru':
+            prettifier = prettify_xakep;
             break;
         default:
             prettifier = function(){}
