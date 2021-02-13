@@ -1,5 +1,21 @@
-// ================================ prettifiers ================================
-function prettify_zen_yandex(){
+// ========== shared functions ===========================================================
+
+function avoid_breaks_inside(selector){
+    let style_el=document.createElement('style');
+    style_el.appendChild(document.createTextNode(`@media print {` + selector + `{
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }}`));
+    document.getElementsByTagName('head')[0].appendChild(style_el);
+}
+
+// ========== prettifiers ================================================================
+
+let prettifiers = {}
+
+// -----------------------------------------------------------------------------
+
+prettifiers['zen.yandex.ru'] = function(){
     // remove all unnecessary
     try {
         document.querySelector('#header-container').remove()
@@ -33,7 +49,7 @@ function prettify_zen_yandex(){
 
 // -----------------------------------------------------------------------------
 
-function prettify_losst_ru(){
+prettifiers['losst.ru'] = function(){
     try{document.querySelector('.main-container').style.width = "100%";}catch{}
     try{document.querySelector('#site-header').remove();}catch{}
     try{document.querySelector('.breadcrumb').remove();}catch{}
@@ -62,13 +78,13 @@ function prettify_losst_ru(){
 
 // -----------------------------------------------------------------------------
 
-function prettify_wikipedia(){
+prettifiers['ru.wikipedia.org'] = function(){
     avoid_breaks_inside('#toc, img');
 }
 
 // -----------------------------------------------------------------------------
 
-function prettify_habr(){
+prettifiers['habr.com'] = function(){
     try{document.querySelector('#TMpanel').remove()}catch{}
     try{document.querySelector('.layout__row_navbar').remove()}catch{}
     try{document.querySelector('.sidebar').remove()}catch{}
@@ -89,7 +105,7 @@ function prettify_habr(){
 
 // -----------------------------------------------------------------------------
 
-function prettify_xakep(){
+prettifiers['xakep.ru'] = function(){
     // disable one-page printable
     let style_el=document.createElement('style');
     style_el.appendChild(document.createTextNode(`@media print{@page{size:auto;margin:30px}}`));
@@ -105,59 +121,20 @@ function prettify_xakep(){
 
 // -----------------------------------------------------------------------------
 
-function prettify_stackoverflow(){
+prettifiers['stackoverflow.com'] = function(){
     // try to break between answers
     avoid_breaks_inside('.answer');
 }
 
-// =============================================================================
-
-function avoid_breaks_inside(selector){
-    let style_el=document.createElement('style');
-    style_el.appendChild(document.createTextNode(`@media print {` + selector + `{
-        break-inside: avoid;
-        page-break-inside: avoid;
-    }}`));
-    document.getElementsByTagName('head')[0].appendChild(style_el);
-}
-
-function choose_prettifier(){
-    let hostname = window.location.hostname;
-    let prettifier = null;
-    switch (hostname) {
-        case 'zen.yandex.ru':
-            prettifier = prettify_zen_yandex;
-            break;
-        case 'losst.ru':
-            prettifier = prettify_losst_ru;
-            break;
-        case 'ru.wikipedia.org':
-            prettifier = prettify_wikipedia;
-            break;
-        case 'habr.com':
-            prettifier = prettify_habr;
-            break;
-        case 'xakep.ru':
-            prettifier = prettify_xakep;
-            break;
-        case 'stackoverflow.com':
-            prettifier = prettify_stackoverflow;
-            break;
-        default:
-            prettifier = function(){}
-            break;
-    }
-    return prettifier;
-}
-
-function print_page_with_delay(){
-    setTimeout(() => {
-        window.print()
-    }, 300);
-}
+// ========== entry point ================================================================
 
 function run(){
-    let prettifier = choose_prettifier();
-    prettifier();
-    print_page_with_delay();
+    let prettifier = prettifiers[window.location.hostname];
+    if(prettifier) prettifier();
+    setTimeout(() => {window.print()}, 300);
 };
+
+//@TODO send to print after all resources was load. use event handler
+//@TODO disable popup dialogs. for example, at losst.ru
+//@TODO make new window with same enternals and do all prettifying in it (not in main tab)
+//@TODO create interactive checkbox into popup.html to mark: should print comments or not?
