@@ -103,6 +103,13 @@ function prettify_xakep(){
     avoid_breaks_inside('.prettyprint');
 }
 
+// -----------------------------------------------------------------------------
+
+function prettify_stackoverflow(){
+    // try to break between answers
+    avoid_breaks_inside('.answer');
+}
+
 // =============================================================================
 
 function avoid_breaks_inside(selector){
@@ -132,6 +139,9 @@ function choose_prettifier(){
             break;
         case 'xakep.ru':
             prettifier = prettify_xakep;
+            break;
+        case 'stackoverflow.com':
+            prettifier = prettify_stackoverflow;
             break;
         default:
             prettifier = function(){}
