@@ -1,0 +1,26 @@
+{
+    "name": "prettyfier4webarticles",
+    "version": "1.0",
+    "description": "Extension for prettyfing articles and saving them as PDF!",
+    "manifest_version": 2,
+    "permissions": [
+        "activeTab"
+    ],
+    "browser_action": {
+        "default_title": "prettyfier4webarticles",
+        "default_icon": {
+            "16": "favicon.png",
+            "32": "favicon.png"
+        },
+        "default_popup": "popup.html"
+    }
+    // "background": {
+    //     "scripts": ["background.js"]
+    // }
+    // "content_scripts": [
+    //     {
+    //       "matches": ["<all_urls>"],
+    //       "js": ["background.js"]
+    //     }
+    // ]
+}

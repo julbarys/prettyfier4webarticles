@@ -1,0 +1,27 @@
+button{
+    width: 300px;
+    margin: 2px;
+    font-size: 16pt;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+}
+
+button:active{
+    color: black;
+}
+
+.small_text{
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 10pt;
+}
+
+#prettify-button{
+    background-color: rgb(100,200,50);
+}
+
+#run-button{
+    background-color: rgb(48, 151, 211);
+}
