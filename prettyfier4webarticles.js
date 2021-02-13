@@ -11,7 +11,7 @@ function avoid_breaks_inside(selector){
 
 // ========== prettifiers ================================================================
 
-let prettifiers = {}
+try{var prettifiers = {}}catch{}
 
 // -----------------------------------------------------------------------------
 
@@ -86,6 +86,7 @@ prettifiers['ru.wikipedia.org'] = function(){
 
 prettifiers['habr.com'] = function(){
     try{document.querySelector('#TMpanel').remove()}catch{}
+    try{document.querySelector('.page-header__banner').remove()}catch{}
     try{document.querySelector('.layout__row_navbar').remove()}catch{}
     try{document.querySelector('.sidebar').remove()}catch{}
     try{document.querySelector('.column-wrapper__last').remove()}catch{}
@@ -101,6 +102,8 @@ prettifiers['habr.com'] = function(){
             cls[index].style.paddingRight = "0";
         }
     }catch{}
+
+    avoid_breaks_inside('.hljs');
 }
 
 // -----------------------------------------------------------------------------
@@ -138,3 +141,4 @@ function run(){
 //@TODO disable popup dialogs. for example, at losst.ru
 //@TODO make new window with same enternals and do all prettifying in it (not in main tab)
 //@TODO create interactive checkbox into popup.html to mark: should print comments or not?
+//@TODO organize stdout and stderr for debugging
